@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: verifier
+data:
+  knative_broker: "http://kafka-broker-ingress.knative-eventing.svc.cluster.local/default/default"
+  #  verify_message_type: uasdaq.message.verify.request
+

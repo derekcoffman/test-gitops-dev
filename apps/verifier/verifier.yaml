@@ -1,0 +1,53 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: verifier
+  # namespace: default
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/max-scale: "3"
+    spec:
+      containers:
+      # - image: uasbase2.pmel.noaa.gov:448/test/verifier@sha256:7812fa6565c1be853ecb6ba70490745744ea9a82c74dd8261ac04ec43ee28ea2
+      - image: 776103873773.dkr.ecr.us-east-1.amazonaws.com/iot-daq/verifier:v1.0.8
+      # - image: uasbase2.pmel.noaa.gov:448/test/verify:v1.0.6
+        env:
+          - name: VERIFIER_KNATIVE_BROKER
+            valueFrom:
+              configMapKeyRef:
+                name: verifier
+                key: knative_broker
+        securityContext:
+          allowPrivilegeEscalation: false
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: verifier
+spec:
+  broker: default
+  filter:
+    attributes:
+      type: uasdaq.message.verify.request
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: verifier
+# ---
+# apiVersion: eventing.knative.dev/v1
+# kind: Trigger
+# metadata:
+#   name: erddap-insert-qc
+# spec:
+#   broker: default
+#   filter:
+#     attributes:
+#       type: gov.noaa.pmel.acg.data.insert.envds.v2.qc
+#   subscriber:
+#     ref:
+#       apiVersion: v1
+#       kind: Service
+#       name: erddap-insert
