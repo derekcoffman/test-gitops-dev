@@ -23,7 +23,22 @@ jobs:
 
 
     steps:
-        - uses: actions/checkout@v4
+        - name: 'Checkout Main'
+          uses: actions/checkout@v4
+
         - name: Build the Docker image
           run: docker build . --file Dockerfile --tag verifier:$(date +%s)
     
+        - name: 'Login to GitHub Container Registry'
+          uses: docker/login-action@v1
+          with:
+            registry: ghcr.io
+            username: ${{github.actor}}
+            password: ${{secrets.GITHUB_TOKEN}}
+
+        - name: Build the Docker image
+          run: docker build . --file Dockerfile --tag verifier:$(date +%s)
+ 
+        - name: Push the Docker image
+          run: docker push ghcr.io/derekcoffman/verifier:$(date +%s)
+          
