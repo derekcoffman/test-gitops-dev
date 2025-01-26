@@ -25,7 +25,8 @@ jobs:
           uses: actions/checkout@v4
 
         - name: Build the Docker image
-          run: docker build . --file Dockerfile --tag ghcr.io/derekcoffman/verifier:$(date +%s)
+        #   run: docker build . --file Dockerfile --tag ghcr.io/derekcoffman/verifier:$(date +%s)
+          run: docker build . --file Dockerfile --tag ghcr.io/derekcoffman/verifier:latest
     
         - name: 'Login to GitHub Container Registry'
           uses: docker/login-action@v1
@@ -35,7 +36,8 @@ jobs:
             password: ${{secrets.GITHUB_TOKEN}}
 
         - name: Build the Docker image
-          run: docker build . --file Dockerfile --tag ghcr.io/derekcoffman/verifier:$(date +%s)
+        #   run: docker build . --file Dockerfile --tag ghcr.io/derekcoffman/verifier:$(date +%s)
+          run: docker build . --file Dockerfile --tag ghcr.io/derekcoffman/verifier:latest
  
         - name: Push the Docker image
           run: docker push ghcr.io/derekcoffman/verifier:$(date +%s)
