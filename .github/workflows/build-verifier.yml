@@ -1,0 +1,29 @@
+name: Build Verifier
+
+
+
+on:
+
+  push:
+
+    branches: [ main ]
+    paths:
+
+        - 'apps/verifier/**'
+  
+
+jobs:
+
+  build-verifier:
+
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+            working-directory: './apps/verifier'
+
+
+    steps:
+        - uses: actions/checkout@v4
+        - name: Build the Docker image
+          run: docker build . --file Dockerfile --tag verifier:$(date +%s)
+    
