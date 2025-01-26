@@ -1,6 +1,6 @@
 # MQTT Bridge
 
-This app is the glue between any MQTT broker and Knative. The app subscribes to an MQTT Broker/Port/Topic for JSON messages, converts them to CloudEvents, and publishes them to a Knative service URL. 
+This app is the glue between any MQTT broker and Knative. The app subscribes to an MQTT Broker/Port/Topic for JSON messages, converts them to CloudEvents, and publishes them to a Knative service URL.
 
 ## Configuration
 
