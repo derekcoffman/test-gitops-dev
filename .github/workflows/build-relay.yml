@@ -13,17 +13,17 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: envds-relay
   # IMAGE_TAG: ${{ github.sha }}
-  IMAGE_TAG: $(cat VERSION)
+  # IMAGE_TAG: $(cat VERSION)
 
 jobs:
 
-  build-and-push-verifier:
+  build-and-push-relay:
 
     runs-on: ubuntu-latest
     defaults:
         run:
             working-directory: './apps/envds-relay'
-
+      
     permissions:
         contents: read
         packages: write
@@ -31,6 +31,11 @@ jobs:
         id-token: write
 
     steps:
+        - name: 'set env variables'
+          run: |
+            VER=$(cat VERSION)
+            echo "IMAGE_TAG=$VER" >> $GITHUB_ENV
+            
         - name: 'Checkout Main'
           uses: actions/checkout@v4
 
