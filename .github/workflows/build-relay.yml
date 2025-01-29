@@ -5,9 +5,9 @@ on:
   push:
 
     branches: [ main ]
-    paths:
+    # paths:
 
-        - 'apps/envds-relay/**'
+    #     - 'apps/envds-relay/**'
   
 env:
   REGISTRY: ghcr.io
@@ -33,9 +33,9 @@ jobs:
     steps:
         - name: 'set env variables'
           run: |
-            VER=$(cat VERSION)
+            VER=$(cat ./apps/envds-relay/VERSION)
             echo "IMAGE_TAG=$VER" >> $GITHUB_ENV
-            
+
         - name: 'Checkout Main'
           uses: actions/checkout@v4
 
